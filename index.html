@@ -2,33 +2,32 @@
 <head>
   <title>Tik Tak Toe</title>
   <style> 
-    .block { width: 100px; height: 100px; border: 3px solid black; } 
-    .block:hover { cursor: pointer; background-color: #A1D454; } 
+    .row { display: flex; background: lightblue; }
+    .rect { width: 100px; height: 100px; border: 3px solid black; } 
+    .rect:hover { cursor: pointer; background-color: #A1D454; } 
+    circle, polyline { stroke-width: 10; fill: none } 
   </style>
 </head>
 <body style="display: flex; flex-direction: column; align-items: center; background:#EBE8CE">
-  <h1 style="font-size: 3em;">Tic-Tac-Toe</h1>
-  <div style="display: grid; width: 300px; height: 300px; grid-template-columns: auto auto auto;">
-    <div class="block"></div> <div class="block"></div> <div class="block"></div>
-    <div class="block"></div> <div class="block"></div> <div class="block"></div>
-    <div class="block"></div> <div class="block"></div> <div class="block"></div>
-  </div>
+  <h1 id="title" style="font-size: 60px; margin: 15px;">Tic-Tac-Toe</h1>
+  <div class="row"><div class="rect"></div><div class="rect"></div><div class="rect"></div></div>
+  <div class="row"><div class="rect"></div><div class="rect"></div><div class="rect"></div></div>
+  <div class="row"><div class="rect"></div><div class="rect"></div><div class="rect"></div></div>
 </body>
 <script>
-  var isCrossTurn = true, state = Array(9).fill(null),
+  var move = 0, state = Array(9),
     by = (beg, inc) => state[beg] === state[beg + inc] && state[beg] === state[beg + 2 * inc] && state[beg],
     win = () => by(0, 1) || by(3, 1) || by(6, 1) || by(0, 3) || by(1, 3) || by(2, 3) || by(0, 4) || by(2, 2);
-  document.querySelectorAll('.block').forEach((block, i) => block.addEventListener('click', () => {
-    block.innerHTML = `<svg width="100" height="100">${isCrossTurn ? 
-      '<polyline points="10,10 90,90 50,50 90,10 10,90" stroke="blueviolet" stroke-width="10" fill="none" />' :
-      '<circle cx="50" cy="50" r="40" stroke="orange" stroke-width="10" fill="none" />'}</svg>`;
-    state[i] = isCrossTurn ? 'Cross' : 'Circle';
-    block.style['pointer-events'] = 'none';
-    isCrossTurn = !isCrossTurn;
-    if (!win() && state.filter(Boolean).length !== 9) return;
-    setTimeout(() => alert(win() ? win() + ' wins!!!!' : 'It is a tie!!'));
+  Array.from(document.getElementsByClassName('rect')).forEach((rect, i) => rect.onclick = () => {
+    rect.innerHTML = `<svg width="100" height="100">${move % 2 ? 
+      '<polyline points="10,10 90,90 50,50 90,10 10,90" stroke="#802BE2"/>' :
+      '<circle cx="50" cy="50" r="40" stroke="orange"/>'}</svg>`;
+    state[i] = move++ % 2 ? '\u2573' : '\u25EF';
+    rect.style['pointer-events'] = 'none';
+    if (!win() && move < 9) return;
+    document.getElementById('title').innerText = win() ? win() + ' wins!!' : 'It is a tie!';
     document.body.style['pointer-events'] = 'none';
-  }));
+  });
 </script>
 </html>
 <!-- If you want to see what this code does: https://ottfh.github.io/ -->
