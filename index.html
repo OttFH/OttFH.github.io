@@ -4,27 +4,27 @@
   <title>Tik Tak Toe</title>
   <style> 
     .row { display: flex; background: lightblue; }
-    .rect { width: 100px; height: 100px; border: 3px solid black; } 
-    .rect:hover { cursor: pointer; background: #A1D454; } 
+    .sqr { width: 100px; height: 100px; border: 3px solid black; } 
+    .sqr:hover { cursor: pointer; background: #A1D454; } 
     circle, polyline { stroke-width: 10; fill: none } 
   </style>
 </head>
 <body style="display: flex; flex-direction: column; align-items: center; background:#EBE8CE">
   <h1 id="title" style="font-size: 60px; margin: 15px;">Tic-Tac-Toe</h1>
-  <div class="row"><div class="rect"></div><div class="rect"></div><div class="rect"></div></div>
-  <div class="row"><div class="rect"></div><div class="rect"></div><div class="rect"></div></div>
-  <div class="row"><div class="rect"></div><div class="rect"></div><div class="rect"></div></div>
+  <div class="row"><div class="sqr"></div><div class="sqr"></div><div class="sqr"></div></div>
+  <div class="row"><div class="sqr"></div><div class="sqr"></div><div class="sqr"></div></div>
+  <div class="row"><div class="sqr"></div><div class="sqr"></div><div class="sqr"></div></div>
 </body>
 <script>
   var move = 0, map = Array(9),
     by = (beg, inc) => map[beg] === map[beg + inc] && map[beg] === map[beg + 2 * inc] && map[beg],
     win = () => by(0, 1) || by(3, 1) || by(6, 1) || by(0, 3) || by(1, 3) || by(2, 3) || by(0, 4) || by(2, 2);
-  Array.from(document.getElementsByClassName('rect')).forEach((rect, i) => rect.onclick = () => {
-    rect.innerHTML = `<svg width="100" height="100">${move % 2 ? 
+  Array.from(document.getElementsByClassName('sqr')).forEach((sqr, i) => sqr.onclick = () => {
+    sqr.innerHTML = `<svg width="100" height="100">${move % 2 ? 
       '<polyline points="10,10 90,90 50,50 90,10 10,90" stroke="#802BE2"/>' :
       '<circle cx="50" cy="50" r="40" stroke="orange"/>'}</svg>`;
     map[i] = move++ % 2 ? '\u2573' : '\u25EF';
-    rect.style['pointer-events'] = 'none';
+    sqr.style['pointer-events'] = 'none';
     if (!win() && move < 9) return;
     document.getElementById('title').innerText = win() ? win() + ' wins!!' : 'It is a tie!';
     document.body.style['pointer-events'] = 'none';
