@@ -1,10 +1,11 @@
+<!doctype html>
 <html lang="en">
 <head>
   <title>Tik Tak Toe</title>
   <style> 
     .row { display: flex; background: lightblue; }
     .rect { width: 100px; height: 100px; border: 3px solid black; } 
-    .rect:hover { cursor: pointer; background-color: #A1D454; } 
+    .rect:hover { cursor: pointer; background: #A1D454; } 
     circle, polyline { stroke-width: 10; fill: none } 
   </style>
 </head>
@@ -15,14 +16,14 @@
   <div class="row"><div class="rect"></div><div class="rect"></div><div class="rect"></div></div>
 </body>
 <script>
-  var move = 0, state = Array(9),
-    by = (beg, inc) => state[beg] === state[beg + inc] && state[beg] === state[beg + 2 * inc] && state[beg],
+  var move = 0, map = Array(9),
+    by = (beg, inc) => map[beg] === map[beg + inc] && map[beg] === map[beg + 2 * inc] && map[beg],
     win = () => by(0, 1) || by(3, 1) || by(6, 1) || by(0, 3) || by(1, 3) || by(2, 3) || by(0, 4) || by(2, 2);
   Array.from(document.getElementsByClassName('rect')).forEach((rect, i) => rect.onclick = () => {
     rect.innerHTML = `<svg width="100" height="100">${move % 2 ? 
       '<polyline points="10,10 90,90 50,50 90,10 10,90" stroke="#802BE2"/>' :
       '<circle cx="50" cy="50" r="40" stroke="orange"/>'}</svg>`;
-    state[i] = move++ % 2 ? '\u2573' : '\u25EF';
+    map[i] = move++ % 2 ? '\u2573' : '\u25EF';
     rect.style['pointer-events'] = 'none';
     if (!win() && move < 9) return;
     document.getElementById('title').innerText = win() ? win() + ' wins!!' : 'It is a tie!';
@@ -30,7 +31,7 @@
   });
 </script>
 </html>
-<!-- If you want to see what this code does: https://ottfh.github.io/ -->
+<!-- This is working HTML, CSS and JavaScript, go to https://ottfh.github.io/ to see what it does -->
 
 
 
